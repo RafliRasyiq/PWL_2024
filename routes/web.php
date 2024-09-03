@@ -2,9 +2,16 @@
 
 use App\Http\Controllers\AboutController;
 use App\Http\Controllers\ArticleController;
+use App\Http\Controllers\BabyController;
+use App\Http\Controllers\BeautyController;
+use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\FoodController;
+use App\Http\Controllers\HomeCareController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\PageController;
 use App\Http\Controllers\PhotoController;
+use App\Http\Controllers\ProfilController;
+use App\Http\Controllers\TransaksiController;
 use App\Http\Controllers\WelcomeController;
 use Illuminate\Foundation\Console\AboutCommand;
 use Illuminate\Support\Facades\Route;
@@ -52,16 +59,19 @@ Route::get('/articles/{id}', [ArticleController::class, 'articles']);
 //     return 'Nama saya '.$name;
 // }); 
 
-Route::get('/user/{name?}', function ($name = 'John') {
-    return 'Nama saya ' . $name;
-});
+// Route::get('/user/{name?}', function ($name = 'John') {
+//     return 'Nama saya ' . $name;
+// });
 
 // Route::resource('photos', PhotoController::class);
 
 // Route::resource('photos', PhotoController::class)->only(['index', 'show']);
 
 Route::resource('photos', PhotoController::class)->except([
-    'create', 'store', 'update', 'destroy'
+    'create',
+    'store',
+    'update',
+    'destroy'
 ]);
 
 // Route::get('/greeting', function (){
@@ -69,3 +79,16 @@ Route::resource('photos', PhotoController::class)->except([
 // });
 
 Route::get('/greeting', [WelcomeController::class, 'greeting']);
+
+Route::get('/category', [CategoryController::class, 'category']);
+
+Route::prefix('category')->group(function () {
+    Route::get('/food-beverage', [FoodController::class, 'food_beverage']);
+    Route::get('/beauty-health', [BeautyController::class, 'beauty_health']);
+    Route::get('/home-care', [HomeCareController::class, 'home_care']);
+    Route::get('/baby-kid', [BabyController::class, 'baby_kid']);
+});
+
+Route::get('/user/{id?}/name/{name?}', [ProfilController::class, 'profil']);
+
+Route::get('/transaksi', [TransaksiController::class, 'transaksi']);
